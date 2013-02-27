@@ -61,7 +61,6 @@ public class KestrelSink extends EventSink.Base {
 		}
 	}
 
-
 	@Override
 	public void close() throws IOException {
 		// Cleanup
@@ -98,5 +97,15 @@ public class KestrelSink extends EventSink.Base {
 				new ArrayList<Pair<String, SinkBuilder>>();
 		builders.add(new Pair<String, SinkBuilder>("kestrelSink", builder()));
 		return builders;
+	}
+
+	public static void main(String[] args) throws IOException, InterruptedException {
+
+		SinkBuilder sb = KestrelSink.builder();
+		EventSink sink = sb.create(null, "test", "013-logging-001.kobo-holodeck.com:22133");
+
+		sink.open();
+		sink.append(new EventStub("hello world"));
+		sink.close();
 	}
 }
